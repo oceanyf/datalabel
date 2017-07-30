@@ -9,15 +9,6 @@
     {
         var filename = "data/redgrape/" + filelist[index];
         document.getElementById('pointer_div').innerHTML = '<img src=' + filename + ' id="cross" style="width: 1232px; height: auto;">';
-        /*for( i=0; i < document.images.length; i++)
-        { 
-            width = document.images[i].width;
-            height = document.images[i].height;
-            window.document.images[i].setAttribute("width",width);
-            window.document.images[i].setAttribute("height",height);
-        }
-        document.getElementById('dimension_x').innerHTML = width;
-        document.getElementById('dimension_y').innerHTML = height; */
     }
 
     
@@ -50,7 +41,8 @@ function point_it(event){
     }
 }
 
- function exportToCsv(filename) {
+ function exportToCsv() {
+     var filename = filelist[index].split('.')[0] + '.csv'
         var processRow = function (row) {
             var finalVal = '';
             for (var j = 0; j < row.length; j++) {
@@ -76,7 +68,9 @@ function point_it(event){
         for (var i = 0; i < rows.length; i++) {
             csvFile += processRow(rows[i]);
         }
-
+        
+        index += 1;
+        document.getElementById('pointer_div').innerHTML = '<img src=data/redgrape/' + filelist[index] + ' id="cross" style="width: 1232px; height: auto;">';
         var blob = new Blob([csvFile], { type: 'text/csv;charset=utf-8;' });
         if (navigator.msSaveBlob) { // IE 10+
             navigator.msSaveBlob(blob, filename);
@@ -97,10 +91,7 @@ function point_it(event){
 </script>
 </head>
 <body onload="addImgAttributes();">
-<form name="pointform" method="post" action="javascript:exportToCsv('test.csv')">
-    <div>
-        Image size is <i id="dimension_x"></i>, <i id="dimension_y"></i>.
-    </div>
+<form name="pointform" method="post" action="javascript:exportToCsv()">
     <div>
         <select id="popupSelect">
             <option value="leaf">leaf</option>
