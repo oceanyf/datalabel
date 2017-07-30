@@ -1,0 +1,121 @@
+<html>
+<head>
+<script language="JavaScript">
+            var filelist =        ["IMGP0829.JPG","IMGP0830.JPG","IMGP0831.JPG","IMGP0832.JPG","IMGP0833.JPG","IMGP0834.JPG","IMGP0835.JPG","IMGP0836.JPG","IMGP0837.JPG","IMGP0838.JPG","IMGP0839.JPG","IMGP0840.JPG","IMGP0841.JPG","IMGP0842.JPG","IMGP0843.JPG","IMGP0844.JPG","IMGP0845.JPG","IMGP0846.JPG","IMGP0847.JPG","IMGP0848.JPG","IMGP0849.JPG","IMGP0850.JPG","IMGP0851.JPG","IMGP0852.JPG","IMGP0853.JPG","IMGP0854.JPG","IMGP0855.JPG","IMGP0856.JPG","IMGP0857.JPG","IMGP0858.JPG","IMGP0859.JPG","IMGP0860.JPG","IMGP0861.JPG","IMGP0862.JPG","IMGP0863.JPG","IMGP0864.JPG","IMGP0865.JPG","IMGP0866.JPG","IMGP0867.JPG","IMGP0868.JPG","IMGP0869.JPG","IMGP0870.JPG","IMGP0871.JPG","IMGP0872.JPG","IMGP0873.JPG","IMGP0874.JPG","IMGP0875.JPG","IMGP0876.JPG","IMGP0877.JPG","IMGP0878.JPG","IMGP0879.JPG","IMGP0880.JPG","IMGP0881.JPG","IMGP0882.JPG","IMGP0883.JPG","IMGP0884.JPG","IMGP0885.JPG","IMGP0886.JPG","IMGP0887.JPG","IMGP0888.JPG","IMGP0889.JPG","IMGP0890.JPG","IMGP0891.JPG","IMGP0892.JPG","IMGP0893.JPG","IMGP0894.JPG","IMGP0895.JPG","IMGP0896.JPG","IMGP0897.JPG","IMGP0898.JPG","IMGP0899.JPG","IMGP0900.JPG","IMGP0901.JPG","IMGP0902.JPG","IMGP0903.JPG","IMGP0904.JPG","IMGP0905.JPG","IMGP0906.JPG","IMGP0907.JPG","IMGP0908.JPG","IMGP0909.JPG","IMGP0910.JPG","IMGP0911.JPG","IMGP0912.JPG","IMGP0913.JPG","IMGP0914.JPG","IMGP0915.JPG","IMGP0916.JPG","IMGP0917.JPG","IMGP0918.JPG","IMGP0919.JPG","IMGP0920.JPG","IMGP0921.JPG","IMGP0922.JPG","IMGP0923.JPG","IMGP0924.JPG","IMGP0925.JPG","IMGP0926.JPG","IMGP0927.JPG","IMGP0928.JPG","IMGP0929.JPG","IMGP0930.JPG","IMGP0931.JPG","IMGP0932.JPG","IMGP0933.JPG","IMGP0934.JPG","IMGP0935.JPG","IMGP0936.JPG","IMGP0937.JPG","IMGP0938.JPG","IMGP0939.JPG","IMGP0940.JPG","IMGP0941.JPG","IMGP0942.JPG","IMGP0943.JPG","IMGP0944.JPG","IMGP0945.JPG","IMGP0946.JPG","IMGP0947.JPG","IMGP0948.JPG","IMGP0949.JPG","IMGP0950.JPG","IMGP0951.JPG","IMGP0952.JPG","IMGP0953.JPG"];
+    var index = 0;
+
+
+    function addImgAttributes()
+    {
+        var filename = "data/redgrape/" + filelist[index];
+        document.getElementById('pointer_div').innerHTML = '<img src=' + filename + ' id="cross" style="width: 1232px; height: auto;">';
+        /*for( i=0; i < document.images.length; i++)
+        { 
+            width = document.images[i].width;
+            height = document.images[i].height;
+            window.document.images[i].setAttribute("width",width);
+            window.document.images[i].setAttribute("height",height);
+        }
+        document.getElementById('dimension_x').innerHTML = width;
+        document.getElementById('dimension_y').innerHTML = height; */
+    }
+
+    
+function point_it(event){
+	pos_x = event.offsetX?(event.offsetX):event.pageX-document.getElementById("pointer_div").offsetLeft;
+	pos_y = event.offsetY?(event.offsetY):event.pageY-document.getElementById("pointer_div").offsetTop;
+	document.getElementById("cross").style.left = (pos_x-1) ;
+	document.getElementById("cross").style.top = (pos_y-15) ;
+	document.getElementById("cross").style.visibility = "visible" ;
+    var imagetype = document.getElementById("popupSelect")
+    var selectedValue = imagetype.options[imagetype.selectedIndex].value;
+    switch(selectedValue)
+    {
+        case "leaf":
+            document.pointform.leaf_x.value = pos_x;
+            document.pointform.leaf_y.value = pos_y;
+            break;
+        case "wire":
+            document.pointform.wire_x.value = pos_x;
+            document.pointform.wire_y.value = pos_y;
+            break;
+        case "grape":
+            document.pointform.grape_x.value = pos_x;
+            document.pointform.grape_y.value = pos_y;
+            break;
+        case "vein":
+            document.pointform.vein_x.value = pos_x;
+            document.pointform.vein_y.value = pos_y;
+            break;    
+    }
+}
+
+ function exportToCsv(filename) {
+        var processRow = function (row) {
+            var finalVal = '';
+            for (var j = 0; j < row.length; j++) {
+                var innerValue = row[j] === null ? '' : row[j].toString();
+                if (row[j] instanceof Date) {
+                    innerValue = row[j].toLocaleString();
+                };
+                var result = innerValue.replace(/"/g, '""');
+                if (result.search(/("|,|\n)/g) >= 0)
+                    result = '"' + result + '"';
+                if (j > 0)
+                    finalVal += ',';
+                finalVal += result;
+            }
+            return finalVal + '\n';
+        };
+
+        var csvFile = '';
+        var rows = [['leaf', document.pointform.leaf_x.value*4, document.pointform.leaf_y.value*4],
+                    ['wire', document.pointform.wire_x.value*4, document.pointform.wire_y.value*4],
+                    ['grape', document.pointform.grape_x.value*4, document.pointform.grape_y.value*4],
+                    ['vein', document.pointform.vein_x.value*4, document.pointform.vein_y.value*4]];
+        for (var i = 0; i < rows.length; i++) {
+            csvFile += processRow(rows[i]);
+        }
+
+        var blob = new Blob([csvFile], { type: 'text/csv;charset=utf-8;' });
+        if (navigator.msSaveBlob) { // IE 10+
+            navigator.msSaveBlob(blob, filename);
+        } else {
+            var link = document.createElement("a");
+            if (link.download !== undefined) { // feature detection
+                // Browsers that support HTML5 download attribute
+                var url = URL.createObjectURL(blob);
+                link.setAttribute("href", url);
+                link.setAttribute("download", filename);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        }
+    }  
+</script>
+</head>
+<body onload="addImgAttributes();">
+<form name="pointform" method="post" action="javascript:exportToCsv('test.csv')">
+    <div>
+        Image size is <i id="dimension_x"></i>, <i id="dimension_y"></i>.
+    </div>
+    <div>
+        <select id="popupSelect">
+            <option value="leaf">leaf</option>
+            <option value="wire">wire</option>
+            <option value="grape">grape</option>
+            <option value="vein">vein</option>
+        </select>
+        Leaf: x = <input type="text" name="leaf_x" size="4" /> y = <input type="text" name="leaf_y" size="4" />&emsp;
+        Wire: x = <input type="text" name="wire_x" size="4" /> y = <input type="text" name="wire_y" size="4" />&emsp;
+        Grape: x = <input type="text" name="grape_x" size="4" /> y = <input type="text" name="grape_y" size="4" />&emsp;
+        Vein: x = <input type="text" name="vein_x" size="4" /> y = <input type="text" name="vein_y" size="4" />&emsp;   
+        <input type="submit" value="Submit">
+    </div>
+    <div id="pointer_div" onclick="point_it(event)">
+    </div>
+</form>
+</body>
+</html>
